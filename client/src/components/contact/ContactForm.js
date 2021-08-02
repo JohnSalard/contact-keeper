@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import ContactContext from '../../context/contact/contactContext';
+
+// Context
+import ContactContext from '../../contexts/contact/contactContext';
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
@@ -26,9 +27,7 @@ const ContactForm = () => {
     }
   }, [contactContext, current]);
 
-  const onChange = (e) => {
-    setContact({ ...contact, [e.target.name]: e.target.value });
-  };
+  const onChange = (e) => setContact((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -40,9 +39,7 @@ const ContactForm = () => {
     clearCurrent();
   };
 
-  const onClear = (e) => {
-    clearCurrent();
-  };
+  const onClear = () => clearCurrent();
 
   return (
     <form onSubmit={onSubmit}>
@@ -53,10 +50,17 @@ const ContactForm = () => {
       <h5>Contact Type</h5>
       <input id="personal" type="radio" name="type" value="personal" onChange={onChange} checked={type === 'personal'} />
       <label htmlFor="personal">&nbsp;Personal&nbsp;</label>
-      <input id="professional" type="radio" name="type" value="professional" onChange={onChange} checked={type === 'professional'} />
+      <input
+        id="professional"
+        type="radio"
+        name="type"
+        value="professional"
+        onChange={onChange}
+        checked={type === 'professional'}
+      />
       <label htmlFor="professional">&nbsp;Professional&nbsp;</label>
       <div>
-        <input type="submit" value={current ? 'Edit Contact' : 'Add Contact'} className="btn btn-primary btn-block" />
+        <input type="submit" value={current ? 'Update Contact' : 'Add Contact'} className="btn btn-primary btn-block" />
       </div>
       {current && (
         <div>
@@ -68,7 +72,4 @@ const ContactForm = () => {
     </form>
   );
 };
-
-// ContactForm.propTypes = {};
-
 export default ContactForm;

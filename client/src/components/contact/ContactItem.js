@@ -1,27 +1,30 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import ContactContext from '../../context/contact/contactContext';
+
+// Context
+import ContactContext from '../../contexts/contact/contactContext';
 
 const ContactItem = (props) => {
-  const { id, name, email, phone, type } = props.contact;
+  const { _id, name, email, phone, type } = props.contact;
   const contactContext = useContext(ContactContext);
   const { deleteContact, setCurrent, clearCurrent } = contactContext;
+
   const checkType = () => (type === 'professional' ? 'badge-success' : 'badge-primary');
 
-  const onDelete = (e) => {
-    deleteContact(id);
+  const onDelete = () => {
+    deleteContact(_id);
     clearCurrent();
   };
 
-  const onCurrent = (e) => {
-    setCurrent(props.contact);
-  };
+  const onCurrent = (e) => setCurrent(props.contact);
 
   return (
     <div className="card bg-light">
       <h3 className="text-primary text-left">
         {name}&nbsp;
-        <span style={{ float: 'right' }} className={`badge ${checkType()}`}>{`${type.charAt(0).toUpperCase()}${type.slice(1)}`}</span>
+        <span style={{ float: 'right' }} className={`badge ${checkType()}`}>{`${type.charAt(0).toUpperCase()}${type.slice(
+          1
+        )}`}</span>
       </h3>
       <ul className="list">
         {email && (
